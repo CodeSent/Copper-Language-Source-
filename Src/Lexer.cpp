@@ -166,6 +166,14 @@ std::vector<Token> Lexer::EvalSource()
 				CurrentToken.Data += CurrentChar;
 			}
 		}
+		// (
+		else if (CM(CurrentChar, '(')) {
+			CurrentToken.TokenType = PAREN_L;
+		}
+		// )
+		else if (CM(CurrentChar, ')')) {
+			CurrentToken.TokenType = PAREN_R;
+		}
 		// OR (||)
 		else if (CM(CurrentChar, '|')) {
 			if (CM(GetCharacterByoffset(1), '|')) {

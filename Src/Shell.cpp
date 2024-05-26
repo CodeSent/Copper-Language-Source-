@@ -6,7 +6,7 @@ int main() {
 	Error ErrorHandler;
 	Lexer Lex;
 	Lex.ErrorHandle = &ErrorHandler;
-	Lex.SetSource(" = == + += - -= / /= * *= ^ ! < > <= >= != && || abcdef_ if else while for set i");
+	Lex.SetSource(" = == + += - -= / /= * *= ^ ! < > <= >= != () && ||  abcdef_ if else while for set ");
 	Lex.EvalSource();
 
 	std::cin.get();
