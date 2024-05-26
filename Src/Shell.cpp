@@ -6,9 +6,15 @@ int main() {
 	Error ErrorHandler;
 	Lexer Lex;
 	Lex.ErrorHandle = &ErrorHandler;
-	Lex.SetSource(" = == + += - -= / /= * *= ^ ! < > <= >= != () && ||  abcdef_ if else while for set ");
-	Lex.EvalSource();
-
+	Lex.SetSource("4 + (5 * 10)");
+	GenaratedTokens lexOutput = Lex.EvalSource();
+	//int i = 0;
+	for (auto& CurrentToken : lexOutput) {
+		
+		//std::cout << (&(lexOutput[i])== &CurrentToken) << "\n";
+		CurrentToken.PrintToken();
+		//i++;
+	}
 	std::cin.get();
 	return 0;
 }

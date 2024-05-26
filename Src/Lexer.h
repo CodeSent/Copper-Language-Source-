@@ -4,6 +4,7 @@
 #include "Tokens.h"
 #include "Error.h"
 
+using  GenaratedTokens = std::vector<Token>;
 
 
 class Lexer
@@ -18,7 +19,7 @@ class Lexer
 	char GetCharacterByoffset(int Offset);
 public:
 	Error* ErrorHandle;
-	std::vector<Token> EvalSource();
+	GenaratedTokens EvalSource();
 	void Step();
 	void SetSource(string Src);
 };

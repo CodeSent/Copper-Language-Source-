@@ -26,7 +26,8 @@ void Token::set(Type TT, string D)
 
 void Lexer::SetSource(string Src)
 {
-	Source = Src + " "; // Small space to prevent erreors
+	Source = Src; 
+	Source += ";";// Small space to prevent erreors
 	Length = Source.size();
 	PositionalIndex = 0;
 	CurrentChar = Source[PositionalIndex];
@@ -44,10 +45,10 @@ void Lexer::Step()
 
 // Everything is hard coded here...
 
-std::vector<Token> Lexer::EvalSource()
+GenaratedTokens Lexer::EvalSource()
 {
 	
-	std::vector<Token> TokensGenarated;
+	GenaratedTokens TokensGenarated;
 	while (Length > PositionalIndex and (*ErrorHandle).getErrorState())
 	{
 		Token CurrentToken;
@@ -61,11 +62,15 @@ std::vector<Token> Lexer::EvalSource()
 
 		// Number Evaluator
 		if (TextUtilities::isNumber(CurrentChar)) {
-			 EvalNumber(CurrentToken);
+			EvalNumber(CurrentToken);
+			TokensGenarated.push_back(CurrentToken);
+			continue;
 		}
 		// Text Evaluator
 		else if (TextUtilities::isAlphabet(CurrentChar)) {
-			 EvalSentence(CurrentToken);
+			EvalSentence(CurrentToken);
+			TokensGenarated.push_back(CurrentToken);
+			continue;
 		}
 
 		// Symbol Evaluator
@@ -174,6 +179,10 @@ std::vector<Token> Lexer::EvalSource()
 		else if (CM(CurrentChar, ')')) {
 			CurrentToken.TokenType = PAREN_R;
 		}
+		// ;
+		else if (CM(CurrentChar, ';')) {
+			CurrentToken.TokenType = EOF_T;
+		}
 		// OR (||)
 		else if (CM(CurrentChar, '|')) {
 			if (CM(GetCharacterByoffset(1), '|')) {
@@ -196,12 +205,12 @@ std::vector<Token> Lexer::EvalSource()
 				continue;
 			}
 		} else {
-
+			TokensGenarated.clear();
 			(*ErrorHandle).printError("Unrecognised (Illegal) Character." ,PositionalIndex,Source.c_str(),Length);
 			continue;
 		}
 		
-		CurrentToken.PrintToken();
+		TokensGenarated.push_back(CurrentToken);
 		Step();
 	}
 

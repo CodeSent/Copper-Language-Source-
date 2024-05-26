@@ -4,3 +4,7 @@
 #include "Error.h"
 
 using  GenaratedTokens = std::vector<Token>;
+
+class Parser {
+    
+};
