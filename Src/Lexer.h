@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Tokens.h"
+#include "Error.h"
 
 
 
@@ -16,6 +17,7 @@ class Lexer
 	void EvalNumber(Token &Target);
 	char GetCharacterByoffset(int Offset);
 public:
+	Error* ErrorHandle;
 	std::vector<Token> EvalSource();
 	void Step();
 	void SetSource(string Src);

@@ -46,8 +46,9 @@ void Lexer::Step()
 
 std::vector<Token> Lexer::EvalSource()
 {
+	
 	std::vector<Token> TokensGenarated;
-	while (Length > PositionalIndex)
+	while (Length > PositionalIndex and (*ErrorHandle).getErrorState())
 	{
 		Token CurrentToken;
 		// Skip Conditions
@@ -186,6 +187,10 @@ std::vector<Token> Lexer::EvalSource()
 				Step();
 				continue;
 			}
+		} else {
+
+			(*ErrorHandle).printError("Unrecognised (Illegal) Character." ,PositionalIndex,Source.c_str(),Length);
+			continue;
 		}
 		
 		CurrentToken.PrintToken();

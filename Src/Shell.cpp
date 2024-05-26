@@ -3,8 +3,10 @@
 
 int main() {
 	//std::cout << "Hello World!" << "\n";
+	Error ErrorHandler;
 	Lexer Lex;
-	Lex.SetSource(" = == + += - -= / /= * *= ^ ! < > <= >= != && || abcdef_ if else while for set if");
+	Lex.ErrorHandle = &ErrorHandler;
+	Lex.SetSource(" = == + += - -= / /= * *= ^ ! < > <= >= != && || abcdef_ if else while for set i");
 	Lex.EvalSource();
 
 	std::cin.get();
