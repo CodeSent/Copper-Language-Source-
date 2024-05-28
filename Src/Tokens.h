@@ -8,6 +8,8 @@ enum Type {
 	NULL_T,
 	EOF_T,
 	IDENTIFIER,
+
+	//Punchuator
 	PAREN_L,
 	PAREN_R,
 
@@ -25,14 +27,16 @@ enum Type {
 	EQUAL_MUL,
 	EQUAL_DIV,
 
-	// Logical Oparators
+	// Relational Oparators
 	EQUALS,
 	LESS,
 	MORE,
-	NOT,
 	LESS_EQ,
 	MORE_EQ,
 	NOT_EQ,
+
+	// Logical Oparators
+	NOT,
 	OR,
 	AND,
 	
@@ -55,7 +59,5 @@ enum Type {
 struct Token {
 	string Data = "";
 	Type TokenType = NULL_T;
-	void set(Type TT);
-	void set(Type TT, string D);
 	void PrintToken();
 };

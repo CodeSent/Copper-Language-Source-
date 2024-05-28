@@ -5,6 +5,10 @@
 
 using  GenaratedTokens = std::vector<Token>;
 
+struct Node {
+
+};
+
 class Parser {
     
 };

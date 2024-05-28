@@ -8,21 +8,7 @@
 
 #define CM(C,T) int(C) == int(T)
 
-void Token::set(Type TT)
-{
-	TokenType = TT;
-}
 
-void Token::PrintToken()
-{
-	std::cout << "{ Val: '" << Data << "' Type: " << TokenType << " }" << "\n";
-}
-
-void Token::set(Type TT, string D)
-{
-	TokenType = TT;
-	Data = D;
-}
 
 void Lexer::SetSource(string Src)
 {
