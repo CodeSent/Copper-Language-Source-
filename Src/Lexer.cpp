@@ -3,7 +3,7 @@
 
 #include "Keywords.h"
 
-#include <sstream>
+
 
 
 #define CM(C,T) int(C) == int(T)
@@ -167,7 +167,7 @@ GenaratedTokens Lexer::EvalSource()
 		}
 		// ;
 		else if (CM(CurrentChar, ';')) {
-			CurrentToken.TokenType = EOF_T;
+			CurrentToken.TokenType = SEMI_COLON;
 		}
 		// OR (||)
 		else if (CM(CurrentChar, '|')) {
@@ -208,13 +208,13 @@ GenaratedTokens Lexer::EvalSource()
 void Lexer::EvalSentence(Token & Target)
 {
 	Target.TokenType = IDENTIFIER;
-	std::stringstream Txt;
+	Target.Data = "";
 	while (TextUtilities::isAcceptableIdentiferSymbol(CurrentChar))
 	{
-		Txt << CurrentChar;
+		Target.Data +=  CurrentChar;
 		Step();
 	}
-	Target.Data = Txt.str();
+
 	ResolveKeyword(Target);
 }
 
@@ -243,10 +243,10 @@ void Lexer::EvalNumber(Token &Eval)
 	Eval.TokenType = INT;
 	int DC = 0;
 
-	std::stringstream Num;
+	Eval.Data = "";
 	while ( TextUtilities::isNumber(CurrentChar) or TextUtilities::isPeriod(CurrentChar))
 	{
-		Num << CurrentChar;
+		Eval.Data +=  CurrentChar;
 		
 		if (TextUtilities::isPeriod(CurrentChar)) {
 			Eval.TokenType = FLOAT;
@@ -258,7 +258,6 @@ void Lexer::EvalNumber(Token &Eval)
 		Step();
 		
 	}
-	Eval.Data = Num.str();
 	//return TokenMade;
 }
 

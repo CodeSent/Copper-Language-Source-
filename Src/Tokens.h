@@ -10,6 +10,7 @@ enum Type {
 	IDENTIFIER,
 
 	//Punchuator
+	SEMI_COLON,
 	PAREN_L,
 	PAREN_R,
 
