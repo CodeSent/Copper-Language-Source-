@@ -1,9 +1,9 @@
 #pragma once
-#include <vector>
+
 #include "Tokens.h"
 #include "Error.h"
 
-using  GenaratedTokens = std::vector<Token>;
+
 
 
 class Lexer

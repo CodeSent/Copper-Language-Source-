@@ -1,6 +1,5 @@
 #include "Lexer.h"
 #include "TextUlit.h"
-
 #include "Keywords.h"
 
 
@@ -13,7 +12,6 @@
 void Lexer::SetSource(string Src)
 {
 	Source = Src; 
-	Source += ";";// Small space to prevent erreors
 	Length = Source.size();
 	PositionalIndex = 0;
 	CurrentChar = Source[PositionalIndex];

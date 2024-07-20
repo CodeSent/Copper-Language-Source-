@@ -1,7 +1,11 @@
 #pragma once
+#include <vector>
 #include <string>
-
 using std::string;
+
+
+
+
 
 enum Type {
 	// Misc
@@ -62,3 +66,5 @@ struct Token {
 	Type TokenType = NULL_T;
 	void PrintToken();
 };
+
+using  GenaratedTokens = std::vector<Token>;

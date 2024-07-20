@@ -8,7 +8,7 @@ int main() {
 	Error ErrorHandler;
 	Lexer Lex;
 	Lex.ErrorHandle = &ErrorHandler;
-	Lex.SetSource("4 + (5 * 10)");
+	Lex.SetSource("4 + (5 * 10);");
 	GenaratedTokens lexOutput = Lex.EvalSource();
 	//int i = 0;
 	for (auto& CurrentToken : lexOutput) {
