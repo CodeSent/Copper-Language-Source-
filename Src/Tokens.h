@@ -60,7 +60,7 @@ enum Type {
 	
 };
 
-
+using T_Type = Type;
 struct Token {
 	string Data = "";
 	Type TokenType = NULL_T;
