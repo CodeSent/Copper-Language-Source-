@@ -24,7 +24,8 @@ Node* Parser::CreateNode(NodeType Type, Token *Tok)
     N.NodeToken = (Tok);
     NodesMade.push_back(N);
     NodeIndex++;
-    std::cout << "Token Made " << Type << "\n";
+    (Tok)->PrintToken();
+    std::cout << "Node made " << NodeIndex << "\n";
     return &NodesMade[NodeIndex-1];
 }
 
@@ -33,69 +34,61 @@ Node* Parser::CreateNode()
     Node N;
     NodesMade.push_back(N);
     NodeIndex++;
-    std::cout << "Token Made " << 0 << "\n";
+    std::cout << "Node made " << NodeIndex << "\n";
     return &NodesMade[NodeIndex-1];
 }
-/*
-Node *Parser::BinOp(Node* (Parser::*Func)(), T_Type T1,T_Type T2)
+
+bool Parser::isTokenType(Token *node, std::vector<T_Type> TypeTest)
 {
-    Node * Left = (this->*Func)();
-    while (currentTokenObj->TokenType == T1 or currentTokenObj->TokenType == T2)
-    {
-        Node* BinNode = CreateNode(BIN_OP,currentTokenObj);
-        Advance();
-        Node* Right = (this->*Func)();
-        BinNode->Left = Left;
-        BinNode->Right = Right;
+    for (auto Test : TypeTest){
+        if (node->TokenType == Test) {
+            return true;
+        }
     }
-    return Left;
+    return false;
 }
-*/
+
 Node* Parser::factor()
 {
     Token Tok = *(currentTokenObj);
     bool Check  = (Tok.TokenType == INT or Tok.TokenType == FLOAT);
     Node* CNode = CreateNode();
     if (Check) {
+        Advance();
         CNode->Type = NUMBER;
         CNode->NodeToken = &(Tok);
-        Advance();
     }
     return CNode;
 }
 
-Node *Parser::term()
+Node *Parser::BinOp(ClassMethodPtr<Parser> Func, std::vector<T_Type> TypeTest)
 {
-    Node * Left = factor();
-
-    while (currentTokenObj->TokenType == MUL or currentTokenObj->TokenType == DIV)
+    Node * Left = (this->*Func)();
+    while (isTokenType(currentTokenObj,TypeTest))
     {
-        std::cout << "Inside Term \n";
-        Node* BinNode = CreateNode(BIN_OP,currentTokenObj);
+        Token Tok = *(currentTokenObj);
         Advance();
-        Node* Right = factor();
+        Node* BinNode = CreateNode(BIN_OP,&Tok);
+        Node* Right = (this->*Func)();
         BinNode->Left = Left;
         BinNode->Right = Right;
+        Left = BinNode;
         
-
     }
     return Left;
+}
+Node *Parser::term()
+{
+    std::cout << "Testing terms" << "\n";
+    Node *Ptr = BinOp(factor,{DIV,MUL});
+    std::cout << "Exiting terms" << "\n \n";
+    return Ptr;
 }
 
 Node *Parser::expr()
 {
-    Node * Left = term();
-
-    while (currentTokenObj->TokenType == PLUS or currentTokenObj->TokenType == MINUS)
-    {
-        std::cout << "Inside Expr \n";
-        Node* BinNode = CreateNode(BIN_OP,currentTokenObj);
-        Advance();
-        Node* Right = term();
-        BinNode->Left = Left;
-        BinNode->Right = Right;
-    }
-    return Left;
+    std::cout << "Testing expressions" << "\n";
+    return BinOp(term,{MINUS,PLUS});
 }
 
 void Parser::Parse()

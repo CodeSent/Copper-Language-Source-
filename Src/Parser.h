@@ -2,7 +2,6 @@
 #include "Tokens.h"
 #include "Error.h"
 
-#define BinFuncPtr(A) Node* *(Parser::A)()
 
 enum NodeType {
     UNKNOWN,
@@ -20,6 +19,9 @@ struct Node {
 
 using GenaratedNodes = std::vector<Node>;
 
+
+template <class mClass> using ClassMethodPtr = Node* (mClass::*)();
+
 class Parser {
 public:
     void SetTarget(GenaratedTokens &TokenArray);
@@ -30,8 +32,8 @@ private:
 
     Node* CreateNode(NodeType Type, Token *Tok);
     Node* CreateNode();
-
-    //Node* BinOp(Node* (Parser::*Func)(), T_Type T1,T_Type T2);
+    bool  isTokenType(Token* node, std::vector<T_Type> TypeTest);
+    Node* BinOp(ClassMethodPtr<Parser> Func , std::vector<T_Type> TypeTest);
 
     Node* factor();
     Node* term();
