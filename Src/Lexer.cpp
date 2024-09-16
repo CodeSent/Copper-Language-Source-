@@ -197,7 +197,10 @@ GenaratedTokens Lexer::EvalSource()
 		TokensGenarated.push_back(CurrentToken);
 		Step();
 	}
-
+	Token EOFToken;
+	EOFToken.TokenType = EOF_Tok;
+	EOFToken.Data = "\0";
+	TokensGenarated.push_back(EOFToken);
 	return TokensGenarated;
 }
 

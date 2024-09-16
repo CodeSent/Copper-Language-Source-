@@ -7,7 +7,7 @@ using std::string;
 
 
 
-enum Type {
+enum TokenType {
 	// Misc
 	NULL_T,
 	EOF_T,
@@ -56,14 +56,16 @@ enum Type {
 	ELSE,
 	WHILE,
 	FOR,
-	VAR_DEC
-	
+	VAR_DEC,
+
+	//EOF Token
+	EOF_Tok
 };
 
-using T_Type = Type;
+using T_Type = TokenType;
 struct Token {
 	string Data = "";
-	Type TokenType = NULL_T;
+	TokenType TokenType = NULL_T;
 	void PrintToken();
 };
 

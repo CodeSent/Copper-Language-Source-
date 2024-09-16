@@ -12,8 +12,11 @@ void Parser::SetTarget(GenaratedTokens &TokenArray)
 void Parser::Advance()
 {
     currentToken++;
-    if ((currentToken+1) < totalTokens) {
-        currentTokenObj = &(Tokens[currentToken]);
+    if (currentToken < totalTokens) {
+        Token &Tok = Tokens[currentToken];
+        Tok.PrintToken();
+        currentTokenObj = &(Tok);
+        return;
     }
 }
 
@@ -24,8 +27,6 @@ Node* Parser::CreateNode(NodeType Type, Token *Tok)
     N.NodeToken = (Tok);
     NodesMade.push_back(N);
     NodeIndex++;
-    (Tok)->PrintToken();
-    std::cout << "Node made " << NodeIndex << "\n";
     return &NodesMade[NodeIndex-1];
 }
 
@@ -34,7 +35,6 @@ Node* Parser::CreateNode()
     Node N;
     NodesMade.push_back(N);
     NodeIndex++;
-    std::cout << "Node made " << NodeIndex << "\n";
     return &NodesMade[NodeIndex-1];
 }
 
@@ -51,7 +51,7 @@ bool Parser::isTokenType(Token *node, std::vector<T_Type> TypeTest)
 Node* Parser::factor()
 {
     Token Tok = *(currentTokenObj);
-    bool Check  = (Tok.TokenType == INT or Tok.TokenType == FLOAT);
+    bool Check  = (isTokenType(currentTokenObj,{INT,FLOAT}));
     Node* CNode = CreateNode();
     if (Check) {
         Advance();
@@ -68,7 +68,7 @@ Node *Parser::BinOp(ClassMethodPtr<Parser> Func, std::vector<T_Type> TypeTest)
     {
         Token Tok = *(currentTokenObj);
         Advance();
-        Node* BinNode = CreateNode(BIN_OP,&Tok);
+        Node* BinNode = CreateNode(BIN_OP,currentTokenObj);
         Node* Right = (this->*Func)();
         BinNode->Left = Left;
         BinNode->Right = Right;
@@ -79,25 +79,20 @@ Node *Parser::BinOp(ClassMethodPtr<Parser> Func, std::vector<T_Type> TypeTest)
 }
 Node *Parser::term()
 {
-    std::cout << "Testing terms" << "\n";
     Node *Ptr = BinOp(factor,{DIV,MUL});
-    std::cout << "Exiting terms" << "\n \n";
     return Ptr;
 }
 
 Node *Parser::expr()
 {
-    std::cout << "Testing expressions" << "\n";
     return BinOp(term,{MINUS,PLUS});
 }
 
 void Parser::Parse()
 {
-    expr();
-    for (auto I : NodesMade)
-    {
-        std::cout << "{ " << I.Type << ":" << I.Left << "," <<  I.Right << "," << &I << "}" << "\n";
-    }
+    Node* Main = expr();
+    Main->PrintData();
+    
     
 }
 

@@ -14,6 +14,7 @@ struct Node {
     Token* NodeToken = nullptr;
     Node* Left = nullptr;
     Node* Right = nullptr;
+    void PrintData();
 };
 
 
