@@ -21,7 +21,7 @@ struct Node {
 using GenaratedNodes = std::vector<Node>;
 
 
-template <class mClass> using ClassMethodPtr = Node* (mClass::*)();
+template <class mClass, typename rType> using ClassMethodPtr = rType (mClass::*)();
 
 class Parser {
 public:
@@ -34,7 +34,7 @@ private:
     Node* CreateNode(NodeType Type, Token *Tok);
     Node* CreateNode();
     bool  isTokenType(Token* node, std::vector<T_Type> TypeTest);
-    Node* BinOp(ClassMethodPtr<Parser> Func , std::vector<T_Type> TypeTest);
+    Node* BinOp(ClassMethodPtr<Parser,Node*> Func , std::vector<T_Type> TypeTest);
 
     Node* factor();
     Node* term();

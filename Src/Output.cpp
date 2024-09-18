@@ -4,25 +4,25 @@
 
 void Token::PrintToken()
 {
-	std::cout << "{ Val: '" << Data << "' Type: " << TokenType << " }";
+	std::cout << "<" << Data.c_str() << ":" << TokenType << ">";
 }
 
 
 void Node::PrintData()
 {
-    std::cout << "( ";
+    std::cout << "(" << Left->NodeToken->TokenType;
     if (Left != nullptr) {
         Left->PrintData();
     }
-    std::cout << " , ";
+    std::cout << ",";
     if (NodeToken != nullptr) {
         NodeToken->PrintToken();
     }
-    std::cout << " , ";
+    std::cout << ",";
     if (Right != nullptr) {
         Right->PrintData();
     }
-    std::cout << " )";
+    std::cout << ")";
 }
 
 

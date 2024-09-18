@@ -14,7 +14,6 @@ void Parser::Advance()
     currentToken++;
     if (currentToken < totalTokens) {
         Token &Tok = Tokens[currentToken];
-        Tok.PrintToken();
         currentTokenObj = &(Tok);
         return;
     }
@@ -26,6 +25,7 @@ Node* Parser::CreateNode(NodeType Type, Token *Tok)
     N.Type = Type;
     N.NodeToken = (Tok);
     NodesMade.push_back(N);
+    std::cout << "\n";
     NodeIndex++;
     return &NodesMade[NodeIndex-1];
 }
@@ -50,7 +50,7 @@ bool Parser::isTokenType(Token *node, std::vector<T_Type> TypeTest)
 
 Node* Parser::factor()
 {
-    Token Tok = *(currentTokenObj);
+    Token &Tok = *(currentTokenObj);
     bool Check  = (isTokenType(currentTokenObj,{INT,FLOAT}));
     Node* CNode = CreateNode();
     if (Check) {
@@ -61,14 +61,14 @@ Node* Parser::factor()
     return CNode;
 }
 
-Node *Parser::BinOp(ClassMethodPtr<Parser> Func, std::vector<T_Type> TypeTest)
+Node *Parser::BinOp(ClassMethodPtr<Parser,Node*> Func, std::vector<T_Type> TypeTest)
 {
     Node * Left = (this->*Func)();
     while (isTokenType(currentTokenObj,TypeTest))
     {
-        Token Tok = *(currentTokenObj);
+        Token &Tok = *(currentTokenObj);
         Advance();
-        Node* BinNode = CreateNode(BIN_OP,currentTokenObj);
+        Node* BinNode = CreateNode(BIN_OP,&Tok);
         Node* Right = (this->*Func)();
         BinNode->Left = Left;
         BinNode->Right = Right;
@@ -91,6 +91,7 @@ Node *Parser::expr()
 void Parser::Parse()
 {
     Node* Main = expr();
+    std::cout << "Printing Tree \n";
     Main->PrintData();
     
     

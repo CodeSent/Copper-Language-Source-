@@ -9,21 +9,21 @@ using std::string;
 
 enum TokenType {
 	// Misc
-	NULL_T,
-	EOF_T,
-	IDENTIFIER,
+	NULL_T,          //1
+	EOF_T,           //2
+	IDENTIFIER,      //3
 
 	//Punchuator
-	SEMI_COLON,
-	PAREN_L,
-	PAREN_R,
+	SEMI_COLON,      //4
+	PAREN_L,         //5
+	PAREN_R,         //6
 
 	// Arithmatic Oparators
-	PLUS,
-	MINUS,
-	MUL,
-	DIV,
-	POW,
+	PLUS,            //7
+	MINUS,           //8
+	MUL,             //9
+	DIV,             //10
+	POW,             //11
 
 	// Assignment Oparators
 	EQUAL, 
@@ -58,8 +58,6 @@ enum TokenType {
 	FOR,
 	VAR_DEC,
 
-	//EOF Token
-	EOF_Tok
 };
 
 using T_Type = TokenType;

@@ -8,16 +8,19 @@ int main() {
 	//std::cout << "Hello World!" << "\n";
 
 	std::string Source;
-	std::cout << ">>>";
-	std::cin >> Source;
 	Error ErrorHandler;
 	Lexer Lex;
 	Parser Par;
 	Lex.ErrorHandle = &ErrorHandler;
-	Lex.SetSource("4 + 5 + 10 + 10000 + 9");
+	Lex.SetSource("10 + 80 + 0");
 	GenaratedTokens lexOutput = Lex.EvalSource();
 
 	if (!ErrorHandler.getErrorState()) {return 0;}
+	Token EOFToken;
+	EOFToken.TokenType = EOF_T;
+	EOFToken.Data = ' ';
+	lexOutput.push_back(EOFToken);
+
 	for (auto& CurrentToken : lexOutput) {
 		
 		//std::cout << (&(lexOutput[i])== &CurrentToken) << "\n";

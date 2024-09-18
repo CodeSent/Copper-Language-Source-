@@ -2,6 +2,8 @@
 #include "TextUlit.h"
 #include "Keywords.h"
 
+#include <iostream>
+
 
 
 
@@ -20,7 +22,7 @@ void Lexer::SetSource(string Src)
 void Lexer::Step()
 {
 	PositionalIndex++;
-	CurrentChar = (Length >= PositionalIndex ? Source[PositionalIndex] : '\n');
+	CurrentChar = (Length >= PositionalIndex ? Source[PositionalIndex] : ' ');
 }
 
 
@@ -33,10 +35,11 @@ GenaratedTokens Lexer::EvalSource()
 {
 	
 	GenaratedTokens TokensGenarated;
+	
 	while (Length > PositionalIndex and (*ErrorHandle).getErrorState())
 	{
 		Token CurrentToken;
-		// Skip Conditions
+		CurrentToken.Data = ' ';
 		if (TextUtilities::isWhitespace(CurrentChar)) {
 			Step();
 			continue;
@@ -62,8 +65,6 @@ GenaratedTokens Lexer::EvalSource()
 		// + , +=
 		else if(CM(CurrentChar,'+')) {
 			CurrentToken.TokenType = PLUS;
-			
-
 			// +=
 			if (CM(GetCharacterByoffset(1), '=')) {
 				Step();
@@ -188,19 +189,17 @@ GenaratedTokens Lexer::EvalSource()
 				Step();
 				continue;
 			}
+
 		} else {
 			TokensGenarated.clear();
 			(*ErrorHandle).printError("Unrecognised (Illegal) Character." ,PositionalIndex,Source.c_str(),Length);
 			continue;
 		}
 		
-		TokensGenarated.push_back(CurrentToken);
+		if (CurrentToken.TokenType != NULL_T) TokensGenarated.push_back(CurrentToken);
 		Step();
 	}
-	Token EOFToken;
-	EOFToken.TokenType = EOF_Tok;
-	EOFToken.Data = "\0";
-	TokensGenarated.push_back(EOFToken);
+	
 	return TokensGenarated;
 }
 
@@ -270,7 +269,7 @@ char Lexer::GetCharacterByoffset(int Offset)
 		}
 		else 
 		{
-			return '\0';
+			return ' ';
 		}
 	
 }
