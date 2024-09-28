@@ -21,21 +21,20 @@ void Parser::Advance()
 
 Node* Parser::CreateNode(NodeType Type, Token *Tok)
 {
-    Node N;
+    NodeIndex++;
+    Node &N = NodesMade[NodeIndex];
     N.Type = Type;
     N.NodeToken = (Tok);
-    NodesMade.push_back(N);
-    std::cout << "\n";
-    NodeIndex++;
-    return &NodesMade[NodeIndex-1];
+    N.Nodeindex = NodeIndex;
+    return &N;
 }
 
 Node* Parser::CreateNode()
 {
-    Node N;
-    NodesMade.push_back(N);
     NodeIndex++;
-    return &NodesMade[NodeIndex-1];
+    Node &N = NodesMade[NodeIndex];
+    N.Nodeindex = NodeIndex;
+    return &N;
 }
 
 bool Parser::isTokenType(Token *node, std::vector<T_Type> TypeTest)
@@ -72,8 +71,8 @@ Node *Parser::BinOp(ClassMethodPtr<Parser,Node*> Func, std::vector<T_Type> TypeT
         Node* Right = (this->*Func)();
         BinNode->Left = Left;
         BinNode->Right = Right;
+        Left = nullptr;
         Left = BinNode;
-        
     }
     return Left;
 }

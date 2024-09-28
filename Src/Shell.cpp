@@ -12,7 +12,7 @@ int main() {
 	Lexer Lex;
 	Parser Par;
 	Lex.ErrorHandle = &ErrorHandler;
-	Lex.SetSource("10 + 80 + 0");
+	Lex.SetSource("10 /10 + 80 * 40 + 9 + 0 + 675");
 	GenaratedTokens lexOutput = Lex.EvalSource();
 
 	if (!ErrorHandler.getErrorState()) {return 0;}
@@ -24,8 +24,8 @@ int main() {
 	for (auto& CurrentToken : lexOutput) {
 		
 		//std::cout << (&(lexOutput[i])== &CurrentToken) << "\n";
-		CurrentToken.PrintToken();
-		std::cout << " \n";
+		//CurrentToken.PrintToken();
+		//std::cout << " \n";
 		//i++;
 	}
 	std::cout << lexOutput.size() << "\n";

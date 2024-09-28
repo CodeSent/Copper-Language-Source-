@@ -1,6 +1,7 @@
 #pragma once
 #include "Tokens.h"
 #include "Error.h"
+#include <map>
 
 
 enum NodeType {
@@ -11,14 +12,16 @@ enum NodeType {
 
 struct Node {
     NodeType Type;
-    Token* NodeToken = nullptr;
-    Node* Left = nullptr;
-    Node* Right = nullptr;
+    Token* NodeToken = 0;
+    Node* Left = 0;
+    Node* Right = 0;
+    int Nodeindex = 0;
     void PrintData();
+    ~Node();
 };
 
 
-using GenaratedNodes = std::vector<Node>;
+using GenaratedNodes = std::map<int,Node>;
 
 
 template <class mClass, typename rType> using ClassMethodPtr = rType (mClass::*)();

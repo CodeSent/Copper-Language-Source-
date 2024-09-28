@@ -4,27 +4,32 @@
 
 void Token::PrintToken()
 {
-	std::cout << "<" << Data.c_str() << ":" << TokenType << ">";
+    const char* cData = Data.c_str();
+	std::cout << "<" << cData << ":" << TokenType << ">";
 }
 
 
 void Node::PrintData()
 {
-    std::cout << "(" << Left->NodeToken->TokenType;
+    
+    std::cout << " (";
     if (Left != nullptr) {
         Left->PrintData();
+        std::cout << ",";
     }
-    std::cout << ",";
     if (NodeToken != nullptr) {
         NodeToken->PrintToken();
     }
-    std::cout << ",";
     if (Right != nullptr) {
+        std::cout << ",";
         Right->PrintData();
     }
-    std::cout << ")";
+    std::cout << ") ";
 }
 
+Node::~Node() {
+    std::cout << "Node Destroyed" << "\n";
+}
 
 void Error::getArrowString(int Length, int at)
 {
@@ -41,7 +46,6 @@ void Error::getArrowString(int Length, int at)
      
 
 }
-
 
 
 void Error::printError(const char *Error, int at, const char *SourceLine, int Size)
